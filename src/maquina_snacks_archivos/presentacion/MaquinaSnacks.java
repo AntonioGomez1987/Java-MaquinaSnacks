@@ -2,6 +2,7 @@ package maquina_snacks_archivos.presentacion;
 
 import maquina_snacks_archivos.dominio.Snack;
 import maquina_snacks_archivos.servicio.IServicioSnacks;
+import maquina_snacks_archivos.servicio.ServicioSnacksArchivos;
 import maquina_snacks_archivos.servicio.ServicioSnacksLista;
 
 import java.util.ArrayList;
@@ -17,7 +18,8 @@ public class MaquinaSnacks {
         var salir = false;
         var consola = new Scanner(System.in);
         // Creamos el objeto para obtener el servicio de snacks (lista)
-        IServicioSnacks servicioSnacks = new ServicioSnacksLista();
+        //IServicioSnacks servicioSnacks = new ServicioSnacksLista();
+        IServicioSnacks servicioSnacks = new ServicioSnacksArchivos();
         // Creamos la lista de productos de tipo snack
         List<Snack> productos = new ArrayList<>();
         System.out.println("*** Maquina de Snacks ***");
@@ -41,7 +43,8 @@ public class MaquinaSnacks {
                 1. Comprar snack
                 2. Mostrar ticket
                 3. Agregar nuevo snack
-                4. Salir
+                4. Inventario de snacks
+                5. Salir
                 Elige una opcion:\s""");
         // Leemos y retornamos la opcion seleccionada
         return Integer.parseInt(consola.nextLine());
@@ -54,7 +57,8 @@ public class MaquinaSnacks {
             case 1 -> comprarSnack(consola, productos, servicioSnacks);
             case 2 -> mostrarTicket(productos);
             case 3 -> agregarSnack(consola, servicioSnacks);
-            case 4 -> {
+            case 4 -> listarInventarioSnacks(consola, servicioSnacks);
+            case 5 -> {
                 System.out.println("Regresa pronto :)");
                 salir = true;
             }
@@ -101,6 +105,10 @@ public class MaquinaSnacks {
         var precio = Double.parseDouble(consola.nextLine());
         servicioSnacks.agregarSnack(new Snack(nombre, precio));
         System.out.println("Tu snack se agrego correctamente");
+        servicioSnacks.mostrarSnacks();
+    }
+
+    private static void listarInventarioSnacks(Scanner consola, IServicioSnacks servicioSnacks) {
         servicioSnacks.mostrarSnacks();
     }
 
